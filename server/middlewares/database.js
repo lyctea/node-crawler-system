@@ -5,11 +5,10 @@ const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 const dbUrl = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
 const mongoOptions = {
-  server: {
-    poolSize: 1,
-    socketOptions: {
-      auto_reconnect: true
-    }
+  useNewUrlParser: true,
+  poolSize: 1,
+  socketOptions: {
+    auto_reconnect: true
   }
 };
 
@@ -23,6 +22,6 @@ export const database = app => {
   });
 
   mongoose.connection.on("open", async => {
-    console.log("Connected to MongoDB Success", DB_NAME);
+    console.log("✅ Connected to MongoDB Success");
   });
 };
