@@ -1,14 +1,18 @@
 import { fetchCatalog, fetchChapters } from "./spider";
+import mongoose from "mongoose";
+require("../../database/biquku.com/book");
+
+const Book = mongoose.model("biquku.com_Book");
 
 class BiqukuSpider {
   constructor() {}
 
   /*
-   * 爬取目录
+   * 爬取全书，目录、title等
    * */
   async book() {
     const book = await fetchCatalog();
-    // TODO 数据库写入
+    await Book.saveBook(book);
     this.chapters(book.chapters);
   }
 
@@ -20,7 +24,7 @@ class BiqukuSpider {
   }
 
   async start() {
-    this.book();
+    await this.book();
   }
 }
 

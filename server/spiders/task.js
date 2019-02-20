@@ -9,7 +9,7 @@ class SpiderTask {
   }
 
   start() {
-    console.log("Start Spider Task");
+    console.log("✅ Start Spider Task");
     this.biquku.start();
   }
 }

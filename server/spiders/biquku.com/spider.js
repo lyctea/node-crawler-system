@@ -1,5 +1,9 @@
 import rp from "request-promise";
 import { afterDecode } from "../util/parse";
+import mongoose from "mongoose";
+
+require("../../database/biquku.com/chapters");
+const Chapter = mongoose.model("biquku.com_Chapter");
 
 import { BIQUKU_CATALOG_URL, BIQUKU_CHAPTERS_URL } from "../api";
 
@@ -55,12 +59,13 @@ function fetchChapters(chapters = []) {
  * @param chapter 章节信息
  */
 function fetchOne(chapter) {
+  console.log(chapter);
   rp({ url: BIQUKU_CHAPTERS_URL(chapter.num), encoding: null })
     .then(res => {
       const $ = afterDecode(res);
       const content = $("#content").html();
-      console.log(content);
       // TODO 写入数据库
+      Chapter.saveChapter({ ...chapter, content });
     })
     .catch(err => {
       console.log(err);

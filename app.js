@@ -3,7 +3,6 @@ const R = require("ramda");
 const resolve = require("path").resolve;
 require("dotenv").config();
 import SpiderTask from "./server/spiders/task";
-
 const r = path => resolve(__dirname, path);
 
 const MIDDLEWARES = ["database"];

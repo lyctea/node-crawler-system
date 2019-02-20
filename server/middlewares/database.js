@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
+import { resolve } from "path";
+import { recursionRequireFile } from "../util/tool";
 
 const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
-
 const dbUrl = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
-// TODO: 引入数据 schema
+// // 引入 schema
+// const models = resolve(__dirname, "../database");
+// recursionRequireFile(models);
 
 const mongoOptions = {
   useNewUrlParser: true,
@@ -24,6 +27,6 @@ export const database = app => {
   });
 
   mongoose.connection.on("open", async => {
-    console.log("✅ Connected to MongoDB Success");
+    console.log("✅ Connected MongoDB Success");
   });
 };
