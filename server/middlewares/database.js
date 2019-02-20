@@ -4,6 +4,8 @@ const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
 const dbUrl = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
+// TODO: 引入数据 schema
+
 const mongoOptions = {
   useNewUrlParser: true,
   poolSize: 1,

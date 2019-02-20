@@ -2,6 +2,7 @@ const express = require("express");
 const R = require("ramda");
 const resolve = require("path").resolve;
 require("dotenv").config();
+import SpiderTask from "./server/spiders/task";
 
 const r = path => resolve(__dirname, path);
 
@@ -11,6 +12,7 @@ class Server {
   constructor() {
     this.app = new express();
     this.useMiddleWares(this.app)(MIDDLEWARES);
+    this.startSpiderTask();
   }
 
   useMiddleWares(app) {
@@ -21,6 +23,11 @@ class Server {
         i => `${r("./server/middlewares")}/${i}`
       )
     );
+  }
+
+  startSpiderTask() {
+    const spiderTask = new SpiderTask();
+    spiderTask.start();
   }
 
   start() {

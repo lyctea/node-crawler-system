@@ -8,14 +8,7 @@
     "": "node --debug",
     "js": "node --debug"
   },
-  "watch": [
-    "server/app/",
-    "server/bin/",
-    "server/routes/",
-    "server/views/",
-    "server/middlewares/",
-    "app.js"
-  ],
+  "watch": ["server/", "app.js"],
   "ignore": [".git", ".idea", "node_modules"],
   "ext": "js jade"
 }
