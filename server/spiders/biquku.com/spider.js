@@ -64,7 +64,7 @@ function fetchOne(chapter) {
     .then(res => {
       const $ = afterDecode(res);
       const content = $("#content").html();
-      // TODO 写入数据库
+      // 写入数据库
       Chapter.saveChapter({ ...chapter, content });
     })
     .catch(err => {

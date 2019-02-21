@@ -3,9 +3,9 @@ const R = require("ramda");
 const resolve = require("path").resolve;
 require("dotenv").config();
 import SpiderTask from "./server/spiders/task";
-const r = path => resolve(__dirname, path);
 
-const MIDDLEWARES = ["database"];
+const r = path => resolve(__dirname, path);
+const MIDDLEWARES = ["database", "log"];
 
 class Server {
   constructor() {
@@ -26,7 +26,7 @@ class Server {
 
   startSpiderTask() {
     const spiderTask = new SpiderTask();
-    spiderTask.start();
+    // spiderTask.start();
   }
 
   start() {
