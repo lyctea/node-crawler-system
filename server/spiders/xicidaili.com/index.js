@@ -13,11 +13,12 @@ class XicidailiSpider {
    * 更新ip代理池
    * @returns {Promise<void>}
    */
-  async latestIp() {
-    for (let i = 1; i <= this.maxPages; i++) {
-      const ips = await fetchLatestIp(i);
-      await Proxy.saveProxy(ips);
-    }
+  async refreshProxy() {
+    console.log("gogo");
+    // for (let i = 1; i <= this.maxPages; i++) {
+    //   const ips = await fetchLatestIp(i);
+    //   await Proxy.saveProxy(ips);
+    // }
   }
 
   async usableProxy(index) {
