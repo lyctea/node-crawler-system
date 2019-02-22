@@ -26,7 +26,7 @@ class Server {
 
   startSpiderTask() {
     const spiderTask = new SpiderTask();
-    // spiderTask.start();
+    spiderTask.start();
   }
 
   start() {
