@@ -28,8 +28,23 @@ ProxySechema.pre("save", function(next) {
 });
 
 ProxySechema.statics = {
-  // async getUsableProxy() {
-  // }
+  /**
+   * find 可用的 proxy
+   * @param index 按插入时间排序，取对应下标数据
+   * @returns {Promise<void>}
+   */
+  async getUsableProxy(index) {
+    try {
+      const proxy = await this.find({})
+        .sort("meta.createAt")
+        .skip(index)
+        .limit(1)
+        .exec();
+      return proxy;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
   async saveProxy(proxys) {
     try {

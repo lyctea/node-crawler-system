@@ -13,7 +13,10 @@ class SpiderTask {
   start() {
     console.log("✅ Start Spider Task");
     // this.biquku.start();
-    this.xicidailiSpider.latestIp();
+    // this.xicidailiSpider.latestIp();
+
+    const proxy = this.xicidailiSpider.usableProxy(0);
+    console.log(proxy);
   }
 }
 
