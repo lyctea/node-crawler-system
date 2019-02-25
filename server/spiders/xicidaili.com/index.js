@@ -14,11 +14,10 @@ class XicidailiSpider {
    * @returns {Promise<void>}
    */
   async refreshProxy() {
-    console.log("gogo");
-    // for (let i = 1; i <= this.maxPages; i++) {
-    //   const ips = await fetchLatestIp(i);
-    //   await Proxy.saveProxy(ips);
-    // }
+    for (let i = 1; i <= this.maxPages; i++) {
+      const ips = await fetchLatestIp(i);
+      await Proxy.saveProxy(ips);
+    }
   }
 
   async usableProxy(index) {
