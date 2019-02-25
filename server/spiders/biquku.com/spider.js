@@ -59,7 +59,6 @@ function fetchChapters(chapters = []) {
  * @param chapter 章节信息
  */
 function fetchOne(chapter) {
-  console.log(chapter);
   rp({ url: BIQUKU_CHAPTERS_URL(chapter.num), encoding: null })
     .then(res => {
       const $ = afterDecode(res);

@@ -1,13 +1,11 @@
 import { CronJob } from "cron";
 import logger from "../../config/log";
-import { fetchLatestIp } from "../xicidaili.com";
+import fetch_proxy_66cn from "./66ip.cn";
 
 class IpProxyModel {
-  constructor(size = 1000) {
+  constructor(size = 400) {
     this.bufferMaxSize = size;
     this.buffer = [];
-    this.bufferSize = this.buffer.length;
-    this.fetchBufferPage = 0;
     this.blacklist = [];
 
     this.pollFetchBufferData();
@@ -21,17 +19,12 @@ class IpProxyModel {
   insertIpBuffer(data) {
     if (this.buffer.length < this.bufferMaxSize) {
       //  去重 && 黑名单
-      if (
-        this.blacklist.filter(proxy => proxy.ip === data.ip) &&
-        this.buffer.filter(proxy => proxy.ip === data.ip)
-      ) {
-        return;
+      if (!this.blacklist.includes(data) && !this.buffer.includes(data)) {
+        this.buffer.unshift(data);
+        return this.buffer.length;
       }
-
-      this.buffer.unshift(data);
-      return this.buffer.length;
     } else {
-      throw new Error("buffer size max");
+      // logger.info("buffer size max");
     }
   }
 
@@ -43,7 +36,7 @@ class IpProxyModel {
     if (this.buffer.length) {
       return this.buffer.pop();
     } else {
-      throw new Error("buffer is empty");
+      // logger.info("buffer is empty");
     }
   }
 
@@ -56,7 +49,7 @@ class IpProxyModel {
       new CronJob(
         "*/10 * * * * *",
         function() {
-          if (_that.bufferSize < _that.bufferMaxSize) _that.produceIp();
+          if (_that.buffer.length < _that.bufferMaxSize) _that.produceIp();
         },
         function() {
           logger.info("[refresh proxy pool] cron-job over @date:" + new Date());
@@ -72,13 +65,18 @@ class IpProxyModel {
    * @returns {Promise<void>}
    */
   async produceIp() {
-    const ips = await fetchLatestIp(this.fetchBufferPage++);
-    ips.forEach(ip => this.insertIpBuffer(ip));
+    console.log(this.buffer.length);
 
-    if (this.bufferSize < this.bufferMaxSize) {
-      await this.produceIp();
+    if (this.buffer.length >= this.bufferMaxSize) {
+      return;
+    }
+
+    const ips = await fetch_proxy_66cn();
+
+    if (ips && ips.length) {
+      ips.forEach(ip => this.insertIpBuffer(ip));
     } else {
-      this.fetchBufferPage = 0;
+      console.log("请求不到数据！");
     }
   }
 

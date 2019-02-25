@@ -2,14 +2,14 @@
  * 爬虫任务管理
  * */
 import Biquku from "./biquku.com";
-import XicidailiSpider from "./xicidaili.com";
 import { CronJob } from "cron";
 import logger from "../config/log";
+import IpProxyModel from "./proxy/IpProxyModel";
 
 class SpiderTask {
   constructor() {
     this.biquku = new Biquku();
-    this.xicidailiSpider = new XicidailiSpider();
+    this.ipProxyModel = new IpProxyModel(); // 初始化ip代理池
   }
 
   start() {

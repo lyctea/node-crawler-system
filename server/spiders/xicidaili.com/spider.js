@@ -3,12 +3,9 @@ import { XICIDAILI_NN } from "../api";
 
 const cheerio = require("cheerio");
 
-const textProxy = "http://121.61.2.162:9999";
-
 export function fetchLatestIp(page) {
-  return rp({ url: XICIDAILI_NN(page), encoding: null, proxy: textProxy })
+  return rp({ url: XICIDAILI_NN(page), encoding: null })
     .then(res => {
-      console.log(res);
       const $ = cheerio.load(res);
 
       const ipList = $("#ip_list tr").slice(3);
@@ -16,17 +13,19 @@ export function fetchLatestIp(page) {
       let result = [];
       ipList.each((i, elem) => {
         const tr = $(elem).children();
-        result.push({
-          ip: tr.eq(1).text(),
-          port: tr.eq(2).text(),
-          anonymity: tr.eq(4).text(),
-          httpType: tr.eq(5).text()
-        });
+        const ip = tr.eq(1).text();
+        const port = tr.eq(2).text();
+        const httpType = tr
+          .eq(5)
+          .text()
+          .toLowerCase();
+
+        result.push(`${httpType}://${ip}:${port}`);
       });
 
-      return result.filter(ip => ip.anonymity === "高匿");
+      return result;
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     });
 }
