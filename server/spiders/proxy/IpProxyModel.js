@@ -34,7 +34,9 @@ class IpProxyModel {
    */
   consumeIp() {
     if (this.buffer.length) {
-      return this.buffer.pop();
+      const ip = this.buffer.pop();
+      this.blacklist.push(ip); // 使用过的 ip 加入黑名单
+      return ip;
     } else {
       // logger.info("buffer is empty");
     }
@@ -45,19 +47,19 @@ class IpProxyModel {
    */
   pollFetchBufferData() {
     const _that = this;
-    if (this.buffer.length < this.bufferMaxSize) {
-      new CronJob(
-        "*/10 * * * * *",
-        function() {
-          if (_that.buffer.length < _that.bufferMaxSize) _that.produceIp();
-        },
-        function() {
-          logger.info("[refresh proxy pool] cron-job over @date:" + new Date());
-        },
-        true,
-        "Asia/Shanghai"
-      );
-    }
+    const cronJob = new CronJob(
+      "*/30 * * * * *",
+      function() {
+        if (_that.buffer.length < _that.bufferMaxSize) _that.produceIp();
+      },
+      function() {
+        logger.info("[refresh proxy pool] cron-job over @date:" + new Date());
+      },
+      true,
+      "Asia/Shanghai"
+    );
+
+    cronJob.start();
   }
 
   /**
@@ -65,8 +67,6 @@ class IpProxyModel {
    * @returns {Promise<void>}
    */
   async produceIp() {
-    console.log(this.buffer.length);
-
     if (this.buffer.length >= this.bufferMaxSize) {
       return;
     }

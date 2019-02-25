@@ -10,6 +10,10 @@ class SpiderTask {
   constructor() {
     this.biquku = new Biquku();
     this.ipProxyModel = new IpProxyModel(); // 初始化ip代理池
+    setInterval(() => {
+      const ip = this.ipProxyModel.consumeIp();
+      console.log(ip);
+    }, 200);
   }
 
   start() {
@@ -21,24 +25,6 @@ class SpiderTask {
     // console.log(proxy);
 
     // this.refreshProxyPool();
-  }
-
-  /**
-   * 每隔30分钟定时刷新ip代理池
-   */
-  refreshProxyPool() {
-    const _that = this;
-    new CronJob(
-      "* 30 * * * *",
-      function() {
-        _that.xicidailiSpider.refreshProxy();
-      },
-      function() {
-        logger.info("[refresh proxy pool] cron-job over @date:" + new Date());
-      },
-      true,
-      "Asia/Shanghai"
-    );
   }
 }
 
