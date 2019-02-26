@@ -2,9 +2,9 @@
  * 爬虫任务管理
  * */
 import Biquku from "./biquku.com";
-import ipProxyModel from "./proxy/IpProxyModel";
+require("./proxy/IpProxyModel");
 import XicidailiSpider from "./xicidaili.com";
-import emitter from "./util/event";
+import { emitter, PROXY_ALREADY } from "./util/event";
 
 class SpiderTask {
   constructor() {
@@ -13,11 +13,9 @@ class SpiderTask {
   }
 
   start() {
-    // this.biquku.start();
     const _that = this;
-    emitter.once("taskReadyStart", function() {
-      console.log("taskReadyStart");
-      _that.xicidailiSpider.refreshProxy();
+    emitter.once(PROXY_ALREADY, function() {
+      _that.xicidailiSpider.refreshProxy(); // 测试切换ip代理，重试3次
     });
   }
 }

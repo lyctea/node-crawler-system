@@ -1,7 +1,7 @@
 import { CronJob } from "cron";
 import logger from "../../config/log";
 import fetch_proxy_66cn from "./66ip.cn";
-import emitter from "../util/event";
+import { emitter, PROXY_ALREADY } from "../util/event";
 
 class IpProxyModel {
   constructor(size = 400) {
@@ -25,7 +25,7 @@ class IpProxyModel {
         return this.buffer.length;
       }
     } else {
-      // logger.info("buffer size max");
+      logger.info("buffer size max");
     }
   }
 
@@ -36,11 +36,11 @@ class IpProxyModel {
   consumeIp() {
     if (this.buffer.length) {
       const ip = this.buffer.pop();
-      this.blacklist.push(ip); // 使用过的 ip 加入黑名单
+      this.insertBlacklist(ip); // 使用过的 ip 加入黑名单
       return ip;
     } else {
       throw new Error("proxy buffer is empty");
-      logger.info("proxy buffer is empty");
+      logger.error("proxy buffer is empty");
     }
   }
 
@@ -78,7 +78,7 @@ class IpProxyModel {
     if (ips && ips.length) {
       ips.forEach(ip => this.insertIpBuffer(ip));
       // 派发事件，可以开始任务
-      emitter.emit("taskReadyStart");
+      emitter.emit(PROXY_ALREADY);
     } else {
       console.log("请求不到数据！");
     }
@@ -91,4 +91,4 @@ class IpProxyModel {
 
 const ipProxyModel = new IpProxyModel();
 
-export default ipProxyModel;
+module.exports = ipProxyModel;
