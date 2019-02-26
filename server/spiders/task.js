@@ -15,7 +15,8 @@ class SpiderTask {
   start() {
     const _that = this;
     emitter.once(PROXY_ALREADY, function() {
-      _that.xicidailiSpider.refreshProxy(); // 测试切换ip代理，重试3次
+      // _that.xicidailiSpider.refreshProxy(); // 测试切换ip代理，重试3次
+      _that.biquku.start();
     });
   }
 }

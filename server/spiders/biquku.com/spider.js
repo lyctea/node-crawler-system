@@ -1,4 +1,4 @@
-import rp from "request-promise";
+import rp from "../util/request";
 import { afterDecode } from "../util/parse";
 import mongoose from "mongoose";
 

@@ -1,8 +1,5 @@
 import { fetchLatestIp } from "./spider";
-require("../../database/xicidaili.com/proxySchema");
 import mongoose from "mongoose";
-
-const Proxy = mongoose.model("xicidaili.com_Proxy");
 
 class XicidailiSpider {
   constructor() {
@@ -14,6 +11,8 @@ class XicidailiSpider {
    * @returns {Promise<void>}
    */
   async refreshProxy() {
+    this.ProxySchema = mongoose.model("xicidaili.com_Proxy");
+
     for (let i = 1; i <= this.maxPages; i++) {
       const ips = await fetchLatestIp(i);
       if (Array.isArray(ips)) {

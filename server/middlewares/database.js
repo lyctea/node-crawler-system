@@ -6,8 +6,8 @@ const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 const dbUrl = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
 // // 引入 schema
-// const models = resolve(__dirname, "../database");
-// recursionRequireFile(models);
+const models = resolve(__dirname, "../database");
+recursionRequireFile(models);
 
 const mongoOptions = {
   useNewUrlParser: true,
