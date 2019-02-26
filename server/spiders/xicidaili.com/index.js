@@ -16,7 +16,7 @@ class XicidailiSpider {
     for (let i = 1; i <= this.maxPages; i++) {
       const ips = await fetchLatestIp(i);
       if (Array.isArray(ips)) {
-        await Proxy.saveProxy(ips);
+        await this.ProxySchema.saveProxy(ips);
       }
     }
   }
