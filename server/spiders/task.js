@@ -2,29 +2,23 @@
  * 爬虫任务管理
  * */
 import Biquku from "./biquku.com";
-import { CronJob } from "cron";
-import logger from "../config/log";
-import IpProxyModel from "./proxy/IpProxyModel";
+import ipProxyModel from "./proxy/IpProxyModel";
+import XicidailiSpider from "./xicidaili.com";
+import emitter from "./util/event";
 
 class SpiderTask {
   constructor() {
     this.biquku = new Biquku();
-    this.ipProxyModel = new IpProxyModel(); // 初始化ip代理池
-    setInterval(() => {
-      const ip = this.ipProxyModel.consumeIp();
-      console.log(ip);
-    }, 200);
+    this.xicidailiSpider = new XicidailiSpider();
   }
 
   start() {
-    console.log("✅ Start Spider Task");
     // this.biquku.start();
-    // this.xicidailiSpider.refreshProxy();
-    //
-    // const proxy = this.xicidailiSpider.usableProxy(0);
-    // console.log(proxy);
-
-    // this.refreshProxyPool();
+    const _that = this;
+    emitter.once("taskReadyStart", function() {
+      console.log("taskReadyStart");
+      _that.xicidailiSpider.refreshProxy();
+    });
   }
 }
 

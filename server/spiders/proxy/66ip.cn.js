@@ -8,7 +8,7 @@ function fetch_proxy_66cn() {
     const result = $("body")
       .html()
       .split("<br>")
-      .splice(0, 200);
+      .splice(-4);
 
     return result.map(ip => "https://" + ip.toString().trim());
   });

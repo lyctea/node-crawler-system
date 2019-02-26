@@ -1,4 +1,4 @@
-import rp from "request-promise";
+import rp from "../util/request";
 import { XICIDAILI_NN } from "../api";
 
 const cheerio = require("cheerio");

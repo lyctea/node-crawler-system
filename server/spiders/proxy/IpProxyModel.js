@@ -1,6 +1,7 @@
 import { CronJob } from "cron";
 import logger from "../../config/log";
 import fetch_proxy_66cn from "./66ip.cn";
+import emitter from "../util/event";
 
 class IpProxyModel {
   constructor(size = 400) {
@@ -38,7 +39,8 @@ class IpProxyModel {
       this.blacklist.push(ip); // 使用过的 ip 加入黑名单
       return ip;
     } else {
-      // logger.info("buffer is empty");
+      throw new Error("proxy buffer is empty");
+      logger.info("proxy buffer is empty");
     }
   }
 
@@ -75,6 +77,8 @@ class IpProxyModel {
 
     if (ips && ips.length) {
       ips.forEach(ip => this.insertIpBuffer(ip));
+      // 派发事件，可以开始任务
+      emitter.emit("taskReadyStart");
     } else {
       console.log("请求不到数据！");
     }
@@ -85,4 +89,6 @@ class IpProxyModel {
   }
 }
 
-export default IpProxyModel;
+const ipProxyModel = new IpProxyModel();
+
+export default ipProxyModel;
