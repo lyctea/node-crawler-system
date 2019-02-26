@@ -6,6 +6,7 @@
 - 使用任务调度 `cron.js`
 - 生产者模式的 `ip` 代理池， 自动补充代理 `ip`
 - `nodemon` 监听文件，开发环境热加载
+- 使用 `node event` 事件封装
 
 ## todo-list
 
@@ -18,4 +19,5 @@
 ## links
 
 [Nodejs 定时执行(node-cron)](https://blog.csdn.net/m0_37263637/article/details/83862250)
+
 [nodejs 生产者跟消费者有没有好的解决方法](https://cnodejs.org/topic/5c1b59b83898674067a76760)
